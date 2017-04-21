@@ -1,0 +1,320 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+    >browser-cookies (v1.1.0)</a>
+</h1>
+<h4>Tiny cookies library for the browser</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.browser-cookies">module browser-cookies</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.browser-cookies.all">
+            function <span class="apidocSignatureSpan">browser-cookies.</span>all
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.browser-cookies.erase">
+            function <span class="apidocSignatureSpan">browser-cookies.</span>erase
+            <span class="apidocSignatureSpan">(name, options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.browser-cookies.get">
+            function <span class="apidocSignatureSpan">browser-cookies.</span>get
+            <span class="apidocSignatureSpan">(name)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.browser-cookies.set">
+            function <span class="apidocSignatureSpan">browser-cookies.</span>set
+            <span class="apidocSignatureSpan">(name, value, options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">browser-cookies.</span>defaults</span>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.browser-cookies" id="apidoc.module.browser-cookies">module browser-cookies</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.browser-cookies.all" id="apidoc.element.browser-cookies.all">
+        function <span class="apidocSignatureSpan">browser-cookies.</span>all
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">all = function () {
+  var all = {};
+  var cookies = document.cookie.split(&#x27;;&#x27;);
+
+  // Iterate all cookies
+  for(var i = 0; i &#x3c; cookies.length; i++) {
+	  var cookie = cookies[i];
+    var cookieLength = cookie.length;
+
+	  // Determine separator index (&#x22;name=value&#x22;)
+	  var separatorIndex = cookie.indexOf(&#x27;=&#x27;);
+
+	  // IE&#x3c;11 emits the equal sign when the cookie value is empty
+	  separatorIndex = separatorIndex &#x3c; 0 ? cookieLength : separatorIndex;
+
+    // add the cookie name and value to the `all` object
+	  var cookie_name = decodeURIComponent(cookie.substring(0, separatorIndex).replace(/^\s+/, &#x27;&#x27;));
+	  all[cookie_name] = decodeURIComponent(cookie.substring(separatorIndex + 1, cookieLength));
+	}
+
+  return all;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```
+[More examples](#examples)
+
+### API
+API contents:
+- method [cookies.set(`name`, `value` &#x26;#91;, `options`&#x26;#93;)](#cookies-set)
+- method [cookies.get(`name`)](#cookies-get)
+- method [cookies.<span class="apidocCodeKeywordSpan">all</span>()](#cookies-all)
+- method [cookies.erase(`name`, &#x26;#91;, `options`&#x26;#93;)](#cookies-erase)
+- property [cookies.defaults](#cookies-defaults)
+
+&#x3c;hr/&#x3e;&#x3c;a name=&#x22;cookies-set&#x22;&#x3e;&#x3c;/a&#x3e;
+
+[cookies.set(`name`, `value` &#x26;#91;, `options`&#x26;#93;)](#cookies-set)
+&#x3c;br/&#x3e;
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.browser-cookies.erase" id="apidoc.element.browser-cookies.erase">
+        function <span class="apidocSignatureSpan">browser-cookies.</span>erase
+        <span class="apidocSignatureSpan">(name, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">erase = function (name, options) {
+  exports.set(name, &#x27;&#x27;, {
+    expires:  -1,
+    domain:   options &#x26;&#x26; options.domain,
+    path:     options &#x26;&#x26; options.path,
+    secure:   0,
+    httponly: 0}
+  );
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+cookies.set(&#x27;firstName&#x27;, &#x27;Lisa&#x27;);
+cookies.set(&#x27;firstName&#x27;, &#x27;Lisa&#x27;, {expires: 365}); // Expires after 1 year
+cookies.set(&#x27;firstName&#x27;, &#x27;Lisa&#x27;, {secure: true, domain: &#x27;www.example.org&#x27;});
+
+cookies.get(&#x27;firstName&#x27;); // Returns cookie value (or null)
+
+cookies.<span class="apidocCodeKeywordSpan">erase</span>(&#x27;firstName&#x27;); // Removes cookie
+```
+[More examples](#examples)
+
+### API
+API contents:
+- method [cookies.set(`name`, `value` &#x26;#91;, `options`&#x26;#93;)](#cookies-set)
+- method [cookies.get(`name`)](#cookies-get)
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.browser-cookies.get" id="apidoc.element.browser-cookies.get">
+        function <span class="apidocSignatureSpan">browser-cookies.</span>get
+        <span class="apidocSignatureSpan">(name)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">get = function (name) {
+  var cookies = document.cookie.split(&#x27;;&#x27;);
+
+  // Iterate all cookies
+  for(var i = 0; i &#x3c; cookies.length; i++) {
+    var cookie = cookies[i];
+    var cookieLength = cookie.length;
+
+    // Determine separator index (&#x22;name=value&#x22;)
+    var separatorIndex = cookie.indexOf(&#x27;=&#x27;);
+
+    // IE&#x3c;11 emits the equal sign when the cookie value is empty
+    separatorIndex = separatorIndex &#x3c; 0 ? cookieLength : separatorIndex;
+
+    var cookie_name = decodeURIComponent(cookie.substring(0, separatorIndex).replace(/^\s+/, &#x27;&#x27;));
+
+    // Return cookie value if the name matches
+    if (cookie_name === name) {
+      return decodeURIComponent(cookie.substring(separatorIndex + 1, cookieLength));
+    }
+  }
+
+  // Return `null` as the cookie was not found
+  return null;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```javascript
+var cookies = require(&#x27;browser-cookies&#x27;);
+
+cookies.set(&#x27;firstName&#x27;, &#x27;Lisa&#x27;);
+cookies.set(&#x27;firstName&#x27;, &#x27;Lisa&#x27;, {expires: 365}); // Expires after 1 year
+cookies.set(&#x27;firstName&#x27;, &#x27;Lisa&#x27;, {secure: true, domain: &#x27;www.example.org&#x27;});
+
+cookies.<span class="apidocCodeKeywordSpan">get</span>(&#x27;firstName&#x27;); // Returns cookie value (or null)
+
+cookies.erase(&#x27;firstName&#x27;); // Removes cookie
+```
+[More examples](#examples)
+
+### API
+API contents:
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.browser-cookies.set" id="apidoc.element.browser-cookies.set">
+        function <span class="apidocSignatureSpan">browser-cookies.</span>set
+        <span class="apidocSignatureSpan">(name, value, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">set = function (name, value, options) {
+  // Retrieve options and defaults
+  var opts = options || {};
+  var defaults = exports.defaults;
+
+  // Apply default value for unspecified options
+  var expires  = opts.expires  || defaults.expires;
+  var domain   = opts.domain   || defaults.domain;
+  var path     = opts.path     !== undefined ? opts.path     : (defaults.path !== undefined ? defaults.path : &#x27;/&#x27;);
+  var secure   = opts.secure   !== undefined ? opts.secure   : defaults.secure;
+  var httponly = opts.httponly !== undefined ? opts.httponly : defaults.httponly;
+
+  // Determine cookie expiration date
+  // If succesful the result will be a valid Date, otherwise it will be an invalid Date or false(ish)
+  var expDate = expires ? new Date(
+      // in case expires is an integer, it should specify the number of days till the cookie expires
+      typeof expires === &#x27;number&#x27; ? new Date().getTime() + (expires * 864e5) :
+      // else expires should be either a Date object or in a format recognized by Date.parse()
+      expires
+  ) : &#x27;&#x27;;
+
+  // Set cookie
+  document.cookie = name.replace(/[^+#$&#x26;^`|]/g, encodeURIComponent)                // Encode cookie name
+  .replace(&#x27;(&#x27;, &#x27;%28&#x27;)
+  .replace(&#x27;)&#x27;, &#x27;%29&#x27;) +
+  &#x27;=&#x27; + value.replace(/[^+#$&#x26;/:&#x3c;-\[\]-}]/g, encodeURIComponent) +                  // Encode cookie value (RFC6265)
+  (expDate &#x26;&#x26; expDate.getTime() &#x3e;= 0 ? &#x27;;expires=&#x27; + expDate.toUTCString() : &#x27;&#x27;) + // Add expiration date
+  (domain   ? &#x27;;domain=&#x27; + domain : &#x27;&#x27;) +                                          // Add domain
+  (path     ? &#x27;;path=&#x27;   + path   : &#x27;&#x27;) +                                          // Add path
+  (secure   ? &#x27;;secure&#x27;           : &#x27;&#x27;) +                                          // Add secure option
+  (httponly ? &#x27;;httponly&#x27;         : &#x27;&#x27;);                                           // Add httponly option
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+Using Bower
+`bower install browser-cookies`
+
+### Usage
+```javascript
+var cookies = require(&#x27;browser-cookies&#x27;);
+
+cookies.<span class="apidocCodeKeywordSpan">set</span>(&#x27;firstName&#x27;, &#x27;Lisa&#x27;);
+cookies.set(&#x27;firstName&#x27;, &#x27;Lisa&#x27;, {expires: 365}); // Expires after 1 year
+cookies.set(&#x27;firstName&#x27;, &#x27;Lisa&#x27;, {secure: true, domain: &#x27;www.example.org&#x27;});
+
+cookies.get(&#x27;firstName&#x27;); // Returns cookie value (or null)
+
+cookies.erase(&#x27;firstName&#x27;); // Removes cookie
+```
+...</pre></li>
+    </ul>
+
+
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
